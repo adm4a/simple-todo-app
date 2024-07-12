@@ -1,5 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import {
+  Alert,
+  FlatList,
   SafeAreaView,
   ScrollView,
   Text,
@@ -12,7 +14,7 @@ import { useState } from "react";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../redux/store";
-import { editItem } from "../../redux/todoSlice";
+import { deleteItem, editItem } from "../../redux/todoSlice";
 
 var i = 0;
 export const Home = (
@@ -28,6 +30,10 @@ export const Home = (
         updatedItem,
       })
     );
+  };
+
+  const handleDeleteItem = (id: number) => {
+    dispatch(deleteItem(id));
   };
 
   return (
@@ -66,40 +72,54 @@ export const Home = (
       >
         {new Date().toUTCString().substring(0, 16)}
       </Text>
-      <ScrollView
-        style={{ width: "100%" }}
-        contentContainerStyle={{ alignItems: "center" }}
+
+      <FlatList
+        style={{
+          width: "90%",
+
+          marginTop: 20,
+        }}
         bounces={false}
-      >
-        <View
-          style={{
-            width: "90%",
-            backgroundColor: "white",
-            borderRadius: 10,
-            padding: 10,
-            marginTop: 20,
-          }}
-        >
-          {todos.map((item, index) => {
-            return (
-              <TouchableOpacity
-                key={item.id}
-                style={{
-                  paddingVertical: 10,
-                  borderBottomColor: "#D3D3D3",
-                  borderBottomWidth: index === todos.length - 1 ? 0 : 0.5,
-                  opacity: item.completed ? 0.5 : 1,
-                }}
-                onPress={() => handleEditItem(item.id, { completed: true })}
-              >
-                <Text style={{ fontWeight: 600, fontSize: 12 }}>
-                  {item.title}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-      </ScrollView>
+        data={todos}
+        ListEmptyComponent={() => {
+          return <Text>No Items</Text>;
+        }}
+        renderItem={(todoItem) => {
+          const { item } = todoItem;
+          return (
+            <TouchableOpacity
+              key={item.id}
+              style={{
+                paddingVertical: 10,
+                borderBottomColor: "#D3D3D3",
+                borderBottomWidth:
+                  todoItem.index === todos.length - 1 ? 0 : 0.5,
+                opacity: item.completed ? 0.5 : 1,
+                backgroundColor: "white",
+                padding: 12,
+                borderRadius: 10,
+              }}
+              onPress={() => handleEditItem(item.id, { completed: true })}
+              onLongPress={() =>
+                Alert.alert("Delete todo item", "Are you sure?", [
+                  {
+                    text: "Yes",
+                    onPress: () => handleDeleteItem(item.id),
+                  },
+                  {
+                    text: "Cancel",
+                    style: "cancel",
+                  },
+                ])
+              }
+            >
+              <Text style={{ fontWeight: 600, fontSize: 12 }}>
+                {item.title}
+              </Text>
+            </TouchableOpacity>
+          );
+        }}
+      />
     </SafeAreaView>
   );
 };

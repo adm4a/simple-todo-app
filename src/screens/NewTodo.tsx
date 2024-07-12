@@ -26,10 +26,10 @@ export const NewTodo = (
   const handleAddItem = (item: any) => {
     dispatch(
       addItem({
+        id: todos.length + 1,
         title: item.title,
         completed: false,
         time: item.time,
-        id: todoList.length + 1,
         category: item.category,
         date: item.date,
         notes: item.notes,
