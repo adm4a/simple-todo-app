@@ -2,12 +2,16 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { Root } from "./src/routers/Root";
+import { Provider } from "react-redux";
+import store from "./redux/store";
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Root />
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <Root />
+      </NavigationContainer>
+    </Provider>
   );
 }
 

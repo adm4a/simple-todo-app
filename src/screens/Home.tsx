@@ -56,6 +56,7 @@ export const Home = (
           {notCompleted.map((item, index) => {
             return (
               <TouchableOpacity
+                key={item.id}
                 style={{
                   paddingVertical: 22,
                   borderBottomColor: "#D3D3D3",
@@ -98,6 +99,7 @@ export const Home = (
           {completed.map((item, index) => {
             return (
               <View
+                key={item.id}
                 style={{
                   paddingVertical: 22,
                   borderBottomColor: "#D3D3D3",
