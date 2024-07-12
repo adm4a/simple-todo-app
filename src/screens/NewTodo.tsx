@@ -15,15 +15,10 @@ import { AppDispatch, RootState } from "../../redux/store";
 import { addItem, deleteItem, editItem } from "../../redux/todoSlice";
 import { todoList } from "../data";
 
-export const Details = (
-  props: NativeStackScreenProps<RootNavigationParams, "Details">
+export const NewTodo = (
+  props: NativeStackScreenProps<RootNavigationParams, "NewTodo">
 ) => {
-  const item = props.route.params?.todoItem;
-  const [title, setTitle] = useState(item.title);
-  const [category, setCategory] = useState(item.category);
-  const [date, setDate] = useState(item.date);
-  const [time, setTime] = useState(item.time);
-  const [notes, setNotes] = useState(item.notes);
+  const [title, setTitle] = useState<string>();
 
   const dispatch = useDispatch<AppDispatch>();
   const todos = useSelector((state: RootState) => state.todos);
@@ -42,21 +37,6 @@ export const Details = (
     );
   };
 
-  const handleEditItem = (
-    id: number,
-    updatedItem: Partial<{
-      id: number;
-      title: string;
-      category: string;
-      date: string;
-      time: string;
-      notes: string;
-      completed: boolean;
-    }>
-  ) => {
-    dispatch(editItem({ id, updatedItem }));
-  };
-
   return (
     <SafeAreaView
       style={{ alignItems: "center", justifyContent: "space-between" }}
@@ -72,52 +52,6 @@ export const Details = (
             value={title}
           />
         </View>
-        <View style={styles.inputWrapper}>
-          <Text style={styles.inputLabel}>Category</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Category"
-            placeholderTextColor={"#D9D9D9"}
-            onChangeText={(category) => setCategory(category)}
-            value={category}
-          />
-        </View>
-
-        <View style={styles.inputWrapper}>
-          <Text style={styles.inputLabel}>Date</Text>
-
-          <RNDateTimePicker
-            mode="date"
-            value={new Date(date)}
-            onChange={(_, newDate) => {
-              setDate(newDate);
-            }}
-          />
-        </View>
-
-        <View style={styles.inputWrapper}>
-          <Text style={styles.inputLabel}>Time</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Time"
-            placeholderTextColor={"#D9D9D9"}
-            onChangeText={(time) => setTime(time)}
-            value={time}
-          />
-        </View>
-
-        <View style={styles.inputWrapper}>
-          <Text style={styles.inputLabel}>Notes</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Notes"
-            placeholderTextColor={"#D9D9D9"}
-            onChangeText={(notes) => setNotes(notes)}
-            value={notes}
-            multiline={true}
-            numberOfLines={4}
-          />
-        </View>
       </View>
 
       <TouchableOpacity
@@ -129,20 +63,15 @@ export const Details = (
           alignItems: "center",
         }}
         onPress={() => {
-          handleEditItem(item.id, {
+          handleAddItem({
             title,
             completed: false,
-            time,
-            id: item.id,
-            category,
-            date,
-            notes,
           });
           props.navigation.navigate("Home");
         }}
       >
         <Text style={{ color: "white", fontWeight: "600", fontSize: 11 }}>
-          {!!item ? "Save changes" : "Add item"}
+          {"Add item"}
         </Text>
       </TouchableOpacity>
     </SafeAreaView>

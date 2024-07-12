@@ -40,4 +40,4 @@ const rootReducer = combineReducers({
   todoReducer: todoSlice.reducer,
 });
 
-export default rootReducer;
+export default todoSlice.reducer;

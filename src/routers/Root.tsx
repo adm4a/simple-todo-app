@@ -1,13 +1,13 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Home } from "../screens/Home";
 import { Welcome } from "../screens/Welcome";
-import { Details } from "../screens/Details";
 import { Text, View } from "react-native";
+import { NewTodo } from "../screens/NewTodo";
 
 export type RootNavigationParams = {
   Welcome: undefined;
   Home: undefined;
-  Details: { todoItem: any } | undefined;
+  NewTodo: undefined;
 };
 
 export const RootRouterStack =
@@ -48,8 +48,8 @@ export const Root = () => {
       />
 
       <RootRouterStack.Screen
-        name="Details"
-        component={Details}
+        name="NewTodo"
+        component={NewTodo}
         options={{ headerShown: true }}
       />
     </RootRouterStack.Navigator>
