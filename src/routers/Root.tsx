@@ -50,7 +50,7 @@ export const Root = () => {
       <RootRouterStack.Screen
         name="Details"
         component={Details}
-        options={{ headerShown: false }}
+        options={{ headerShown: true }}
       />
     </RootRouterStack.Navigator>
   );
