@@ -10,7 +10,10 @@ import {
 import { RootNavigationParams } from "../routers/Root";
 import { useState } from "react";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import { convertTimeStringToDate } from "../../helpers";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../redux/store";
+import { addItem, deleteItem, editItem } from "../../redux/todoSlice";
+import { todoList } from "../data";
 
 export const Details = (
   props: NativeStackScreenProps<RootNavigationParams, "Details">
@@ -21,6 +24,38 @@ export const Details = (
   const [date, setDate] = useState(item.date);
   const [time, setTime] = useState(item.time);
   const [notes, setNotes] = useState(item.notes);
+
+  const dispatch = useDispatch<AppDispatch>();
+  const todos = useSelector((state: RootState) => state.todos);
+
+  const handleAddItem = (item: any) => {
+    dispatch(
+      addItem({
+        title: item.title,
+        completed: false,
+        time: item.time,
+        id: todoList.length + 1,
+        category: item.category,
+        date: item.date,
+        notes: item.notes,
+      })
+    );
+  };
+
+  const handleEditItem = (
+    id: number,
+    updatedItem: Partial<{
+      id: number;
+      title: string;
+      category: string;
+      date: string;
+      time: string;
+      notes: string;
+      completed: boolean;
+    }>
+  ) => {
+    dispatch(editItem({ id, updatedItem }));
+  };
 
   return (
     <SafeAreaView
@@ -54,7 +89,9 @@ export const Details = (
           <RNDateTimePicker
             mode="date"
             value={new Date(date)}
-            onChange={(newDate) => setDate(newDate)}
+            onChange={(_, newDate) => {
+              setDate(newDate);
+            }}
           />
         </View>
 
@@ -91,10 +128,21 @@ export const Details = (
           width: "70%",
           alignItems: "center",
         }}
-        onPress={() => props.navigation.navigate("Home")}
+        onPress={() => {
+          handleEditItem(item.id, {
+            title,
+            completed: false,
+            time,
+            id: item.id,
+            category,
+            date,
+            notes,
+          });
+          props.navigation.navigate("Home");
+        }}
       >
         <Text style={{ color: "white", fontWeight: "600", fontSize: 11 }}>
-          Save
+          {!!item ? "Save changes" : "Add item"}
         </Text>
       </TouchableOpacity>
     </SafeAreaView>

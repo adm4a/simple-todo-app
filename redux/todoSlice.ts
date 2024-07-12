@@ -1,9 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { combineReducers } from "redux";
 
-interface TodoItem {
+export interface TodoItem {
   id: number;
-  text: string;
+  title: string;
+  category: string;
+  date: string;
+  time: string;
+  notes: string;
   completed: boolean;
 }
 
