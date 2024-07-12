@@ -18,13 +18,6 @@ var i = 0;
 export const Home = (
   props: NativeStackScreenProps<RootNavigationParams, "Home">
 ) => {
-  const [notCompleted, setNotCompleted] = useState(
-    todoList.filter((item) => item.completed === false)
-  );
-  const [completed, setCompleted] = useState(
-    todoList.filter((item) => item.completed)
-  );
-
   const dispatch = useDispatch<AppDispatch>();
   const todos = useSelector((state: RootState) => state.todos);
 
@@ -82,7 +75,7 @@ export const Home = (
           style={{
             width: "90%",
             backgroundColor: "white",
-            borderRadius: 20,
+            borderRadius: 10,
             padding: 10,
             marginTop: 20,
           }}
@@ -92,13 +85,14 @@ export const Home = (
               <TouchableOpacity
                 key={item.id}
                 style={{
-                  paddingVertical: 22,
+                  paddingVertical: 10,
                   borderBottomColor: "#D3D3D3",
                   borderBottomWidth: index === todos.length - 1 ? 0 : 0.5,
+                  opacity: item.completed ? 0.5 : 1,
                 }}
                 onPress={() => handleEditItem(item.id, { completed: true })}
               >
-                <Text style={{ fontWeight: 500, fontSize: 12 }}>
+                <Text style={{ fontWeight: 600, fontSize: 12 }}>
                   {item.title}
                 </Text>
               </TouchableOpacity>
