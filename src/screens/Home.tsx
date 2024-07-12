@@ -41,7 +41,6 @@ export const Home = (
       style={{
         alignItems: "center",
         justifyContent: "center",
-        backgroundColor: "#F1F5F9",
         position: "relative",
         height: "100%",
       }}
@@ -63,15 +62,6 @@ export const Home = (
       >
         <Ionicons name="add-outline" size={32} color="white" />
       </TouchableOpacity>
-      <Text
-        style={{
-          marginTop: 20,
-          fontWeight: 700,
-          fontSize: 13,
-        }}
-      >
-        {new Date().toUTCString().substring(0, 16)}
-      </Text>
 
       <FlatList
         style={{
@@ -90,14 +80,14 @@ export const Home = (
             <TouchableOpacity
               key={item.id}
               style={{
-                paddingVertical: 10,
+                padding: 12,
                 borderBottomColor: "#D3D3D3",
                 borderBottomWidth:
                   todoItem.index === todos.length - 1 ? 0 : 0.5,
                 opacity: item.completed ? 0.5 : 1,
                 backgroundColor: "white",
-                padding: 12,
-                borderRadius: 10,
+                borderRadius: 8,
+                marginBottom: 8,
               }}
               onPress={() => handleEditItem(item.id, { completed: true })}
               onLongPress={() =>

@@ -1,7 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Home } from "../screens/Home";
-import { Welcome } from "../screens/Welcome";
-import { Text, View } from "react-native";
+import { Image, View } from "react-native";
 import { NewTodo } from "../screens/NewTodo";
 
 export type RootNavigationParams = {
@@ -17,12 +16,6 @@ export const Root = () => {
   return (
     <RootRouterStack.Navigator>
       <RootRouterStack.Screen
-        name="Welcome"
-        component={Welcome}
-        options={{ headerShown: false }}
-      />
-
-      <RootRouterStack.Screen
         name="Home"
         component={Home}
         options={{
@@ -31,16 +24,17 @@ export const Root = () => {
             return (
               <View
                 style={{
-                  height: 100,
                   alignItems: "center",
                   justifyContent: "flex-end",
-                  paddingBottom: 10,
-                  backgroundColor: "#4A3780",
+                  backgroundColor: "white",
+                  paddingTop: 50,
                 }}
               >
-                <Text style={{ color: "white", fontWeight: 600 }}>
-                  My Todo List
-                </Text>
+                <Image
+                  source={require("../../assets/logo.png")}
+                  style={{ width: 300, height: 50 }}
+                  resizeMode="contain"
+                />
               </View>
             );
           },
